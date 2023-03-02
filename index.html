@@ -11,16 +11,18 @@
       <h2>Abstract</h2>
       <p>
         This document specifies a mechanism for exposing to a screen-capturing application mouse
-        events which occur over a captured display-surface.
+        events which occur over a captured [=display surface=].
       </p>
     </section>
     <section id="conformance"></section>
     <section id="background">
       <h2>Background</h2>
       <p>
-        Web applications can use {{MediaDevices/getDisplayMedia()}} to capture any display-surface -
-        tabs, windows or screens. When they do, they can also specify the
-        <a data-cite="SCREEN-CAPTURE#dfn-cursor">cursor</a> constraint to control whether the
+        Web applications can use {{MediaDevices/getDisplayMedia()}} to capture any [=display
+        surface=] - <a data-cite="screen-capture/#dfn-browser">tabs</a>,
+        <a data-cite="screen-capture/#dfn-window">windows</a> or
+        <a data-cite="screen-capture/#dfn-monitor">screens</a>. When they do, they can also specify
+        the <a data-cite="SCREEN-CAPTURE#dfn-cursor">cursor</a> constraint to control whether the
         cursor's pixels are captured or not.
       </p>
       <p>
@@ -87,7 +89,7 @@
         <dd>
           <p>
             The horizontal coordinate at which the event occurred relative to the origin of the
-            captured display-surface.
+            captured [=display surface=].
           </p>
           <p>
             The only legal negative value is -1. A combination of {{CapturedMouseEvent/surfaceX}}
@@ -99,7 +101,7 @@
         <dd>
           <p>
             The vertical coordinate at which the event occurred relative to the origin of the
-            captured display-surface.
+            captured [=display surface=].
           </p>
           <p>
             The only legal negative value is -1. A combination of {{CapturedMouseEvent/surfaceX}}
