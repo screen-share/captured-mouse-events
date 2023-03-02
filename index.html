@@ -11,48 +11,42 @@
       <h2>Abstract</h2>
       <p>
         This document specifies a mechanism for exposing the cursor coordinates
-        <a data-cite="SCREEN-CAPTURE#dom-mediadevices-getdisplaymedia">getDisplayMedia</a>. This new
-        member allows an application to specify a preference for capturing the tab from which
-        <a data-cite="SCREEN-CAPTURE#dom-mediadevices-getdisplaymedia">getDisplayMedia</a> was
-        called.
+        <a data-cite="SCREEN-CAPTURE#dom-mediadevices-getdisplaymedia">getDisplayMedia</a>. This new member allows an
+        application to specify a preference for capturing the tab from which
+        <a data-cite="SCREEN-CAPTURE#dom-mediadevices-getdisplaymedia">getDisplayMedia</a> was called.
       </p>
     </section>
     <section id="conformance"></section>
     <section>
       <h2>Background</h2>
-      - get mouse but programmatically
-      - we have mouse events over the browser windows, but not over the captured windows/screens
-      - consider the case of ...
+      - get mouse but programmatically - we have mouse events over the browser windows, but not over the captured
+      windows/screens - consider the case of ...
       <p>
         Currently,
-        <a data-cite="SCREEN-CAPTURE#dom-mediadevices-getdisplaymedia">getDisplayMedia</a> does not
-        allow the application to influence the user's selection of a capture source. This design
-        decision is perennially debated.
+        <a data-cite="SCREEN-CAPTURE#dom-mediadevices-getdisplaymedia">getDisplayMedia</a> does not allow the
+        application to influence the user's selection of a capture source. This design decision is perennially debated.
       </p>
       <p>
-        Consider the case of a productivity suite that wishes to stream itself to a virtual
-        conference. When such an application calls
-        <a data-cite="SCREEN-CAPTURE#dom-mediadevices-getdisplaymedia">getDisplayMedia</a>, any
-        selection by the user of a source other than the current tab is likely user-error, and the
-        application is likely to discard the resulting {{MediaStream}} rather than use it.
+        Consider the case of a productivity suite that wishes to stream itself to a virtual conference. When such an
+        application calls
+        <a data-cite="SCREEN-CAPTURE#dom-mediadevices-getdisplaymedia">getDisplayMedia</a>, any selection by the user of
+        a source other than the current tab is likely user-error, and the application is likely to discard the resulting
+        {{MediaStream}} rather than use it.
       </p>
       <p>
-        In such a case, there is only one capture-source that makes sense - the current tab. An API
-        is required that only offers the current tab. Such an API is currently in the works, and its
-        tentative name is <code>getViewportMedia</code>. The main benefit of
-        <code>getViewportMedia</code> is that it will offer the user a confirmation-only dialog. The
-        drawbacks are the long time until this API is be standardized, implemented, and until the
-        security mechanisms it requires are widely adopted.
+        In such a case, there is only one capture-source that makes sense - the current tab. An API is required that
+        only offers the current tab. Such an API is currently in the works, and its tentative name is
+        <code>getViewportMedia</code>. The main benefit of <code>getViewportMedia</code> is that it will offer the user
+        a confirmation-only dialog. The drawbacks are the long time until this API is be standardized, implemented, and
+        until the security mechanisms it requires are widely adopted.
       </p>
       <p>
         We propose a simpler mechanism that can act as a stopgap measure until
-        <code>getViewportMedia</code> is standardized, implemented and adopted by the Web. This
-        mechanism is a dictionary member that indicates to the user agent that the application
-        prefers the current tab. The user agent then still shows the user a dialog that complies
-        with all of the requirements placed on
-        <a data-cite="SCREEN-CAPTURE#dom-mediadevices-getdisplaymedia">getDisplayMedia</a>, by
-        offering all possible sources to the user, but the current tab is presented as the most
-        prominent option.
+        <code>getViewportMedia</code> is standardized, implemented and adopted by the Web. This mechanism is a
+        dictionary member that indicates to the user agent that the application prefers the current tab. The user agent
+        then still shows the user a dialog that complies with all of the requirements placed on
+        <a data-cite="SCREEN-CAPTURE#dom-mediadevices-getdisplaymedia">getDisplayMedia</a>, by offering all possible
+        sources to the user, but the current tab is presented as the most prominent option.
       </p>
     </section>
     <section id="captured-mouse-change-event">
@@ -73,36 +67,36 @@
         <dd>
           <!-- TODO: Refactor the getDisplayMedia to more easily allow hooking into. -->
           <p>
-            When {{MediaDevices/getDisplayMedia()}} is called with <code>|constraints|</code> (a
-            dictionary), the user agent MUST run the following steps:
+            When {{MediaDevices/getDisplayMedia()}} is called with <code>|constraints|</code> (a dictionary), the user
+            agent MUST run the following steps:
           </p>
           <ol>
             <li>
-              If <code>|constraints|.preferCurrentTab</code> is <code>false</code>, abort these
-              steps and continue instead with the
+              If <code>|constraints|.preferCurrentTab</code> is <code>false</code>, abort these steps and continue
+              instead with the
               <a href="https://www.w3.org/TR/screen-capture/#dom-mediadevices-getdisplaymedia"
                 >getDisplayMedia algorithm</a
               >.
             </li>
             <li>
               If <code>|constraints|.</code>{{DisplayMediaStreamOptions/selfBrowserSurface}} is
-              {{SelfCapturePreferenceEnum/"exclude"}}, return a promise [=reject|rejected=] with a
-              newly [=exception/created=] {{TypeError}}.
+              {{SelfCapturePreferenceEnum/"exclude"}}, return a promise [=reject|rejected=] with a newly
+              [=exception/created=] {{TypeError}}.
             </li>
             <li>
               The rest of the
               <a href="https://www.w3.org/TR/screen-capture/#dom-mediadevices-getdisplaymedia"
                 >getDisplayMedia algorithm</a
               >
-              should now be executed, with one change - if the algorithm's execution reaches the
-              step where the user agent asks the user to choose a display surface to capture, then
-              the user agent SHOULD present the current tab as the most prominent option.
+              should now be executed, with one change - if the algorithm's execution reaches the step where the user
+              agent asks the user to choose a display surface to capture, then the user agent SHOULD present the current
+              tab as the most prominent option.
             </li>
           </ol>
         </dd>
       </dl>
     </section>
-      <section id="capture-controller-extensions">
+    <section id="capture-controller-extensions">
       <h2>CaptureController Extensions</h2>
       <pre class="idl">
         partial interface CaptureController {
@@ -116,30 +110,30 @@
         <dd>
           <!-- TODO: Refactor the getDisplayMedia to more easily allow hooking into. -->
           <p>
-            When {{MediaDevices/getDisplayMedia()}} is called with <code>|constraints|</code> (a
-            dictionary), the user agent MUST run the following steps:
+            When {{MediaDevices/getDisplayMedia()}} is called with <code>|constraints|</code> (a dictionary), the user
+            agent MUST run the following steps:
           </p>
           <ol>
             <li>
-              If <code>|constraints|.preferCurrentTab</code> is <code>false</code>, abort these
-              steps and continue instead with the
+              If <code>|constraints|.preferCurrentTab</code> is <code>false</code>, abort these steps and continue
+              instead with the
               <a href="https://www.w3.org/TR/screen-capture/#dom-mediadevices-getdisplaymedia"
                 >getDisplayMedia algorithm</a
               >.
             </li>
             <li>
               If <code>|constraints|.</code>{{DisplayMediaStreamOptions/selfBrowserSurface}} is
-              {{SelfCapturePreferenceEnum/"exclude"}}, return a promise [=reject|rejected=] with a
-              newly [=exception/created=] {{TypeError}}.
+              {{SelfCapturePreferenceEnum/"exclude"}}, return a promise [=reject|rejected=] with a newly
+              [=exception/created=] {{TypeError}}.
             </li>
             <li>
               The rest of the
               <a href="https://www.w3.org/TR/screen-capture/#dom-mediadevices-getdisplaymedia"
                 >getDisplayMedia algorithm</a
               >
-              should now be executed, with one change - if the algorithm's execution reaches the
-              step where the user agent asks the user to choose a display surface to capture, then
-              the user agent SHOULD present the current tab as the most prominent option.
+              should now be executed, with one change - if the algorithm's execution reaches the step where the user
+              agent asks the user to choose a display surface to capture, then the user agent SHOULD present the current
+              tab as the most prominent option.
             </li>
           </ol>
         </dd>
