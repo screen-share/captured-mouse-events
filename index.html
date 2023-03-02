@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+    <title>Mouse Events</title>
+    <script class="remove" src="mouse-events.js" type="text/javascript"></script>
+    <script src="https://www.w3.org/Tools/respec/respec-w3c" class="remove"></script>
+  </head>
+  <body>
+    <section id="abstract">
+      <h2>Abstract</h2>
+      <p>
+        This document specifies a mechanism for exposing to a screen-capturing application mouse
+        events which occur over a captured display-surface.
+      </p>
+    </section>
+    <section id="conformance"></section>
+    <section id="background">
+      <h2>Background</h2>
+      <p>
+        Web applications can use {{MediaDevices/getDisplayMedia()}} to capture any display-surface -
+        tabs, windows or screens. When they do, they can also specify the
+        <a data-cite="SCREEN-CAPTURE#dfn-cursor">cursor</a> constraint to control whether the
+        cursor's pixels are captured or not.
+      </p>
+      <p>
+        But what if the application wishes to programmatically observe the location of the cursor?
+        That can be done by scanning each frame and employing heuristics to detect the cursor. But
+        that's neither simple, nor efficient, nor robust.
+      </p>
+      <p>
+        A mechanism for exposing mouse coordinates over a captured surface to a capturing
+        application is desirable.
+      </p>
+    </section>
+    <section id="use-cases">
+      <h2>Use cases</h2>
+      <section id="use-case-1">
+        <h3>Use case #1: Cursor enhancement</h3>
+        <p>
+          During video-conferencing calls, Web applications on the receiving side can use our
+          mechanism to highlight, enhance or outright replace the cursor. This can be done without
+          making such distracting adjustments on the capturing side, where the presenter might not
+          need such aids.
+        </p>
+        <p>This same can be done when recording an instructional video.</p>
+      </section>
+      <section id="use-case-2">
+        <h3>Use case #2: Efficiency enhancements during RTC</h3>
+        <p>
+          Captured frames are often encoded and then transmitted remotely. Updates to the cursor
+          location require a new frame to be encoded and transmitted, costing CPU, power and
+          bandwidth. In theory, these costs could be minimized by efficient encoding; in practice,
+          the costs are non-negligible - the entire image needs to be scanned for changes, and there
+          is per-frame IPC overhead which multiplies with the max framerate.
+        </p>
+        <p>
+          If mouse coordinates were known to the encoding application, it could transmit these
+          coordinates to the receiving application (on another device). The receiver could then
+          redraw a cursor on the other side. (Note that, depending on the decoder, this is likely
+          cheaper than decoding a whole new frame.) Non-trivial complexity would be added, but the
+          gains to CPU, power and bandwidth on both sides might justify it.
+        </p>
+      </section>
+    </section>
+    <section id="captured-mouse-change-event">
+      <h2>CapturedMouseEvent interface</h2>
+      <p>
+        We define a new event type, {{CapturedMouseEvent}}. This is modelled after {{MouseEvent}}
+        from [[UIEVENTS]], but exposes less information. Whereas {{MouseEvent}} exposes to an
+        application the user's interaction with the application itself, and is therefore
+        straightforward security-wise, {{CapturedMouseEvent}} exposes to an application the user's
+        interaction with another application, or even with the operating system itself, calling for
+        more scrutiny in which information may safely be exposed. At present, only information
+        already available to the capturing application is exposed - the mosue coordinates.
+      </p>
+      <pre class="idl">
+        [Exposed=Window]
+        interface CapturedMouseEvent : Event {
+          constructor(optional CapturedMouseEventInit eventInitDict = {});
+          readonly attribute long surfaceX;
+          readonly attribute long surfaceY;
+        };
+      </pre>
+      <dl data-link-for="CapturedMouseEvent" data-dfn-for="CapturedMouseEvent">
+        <dt><dfn attribute>surfaceX</dfn></dt>
+        <dd>
+          <p>
+            The horizontal coordinate at which the event occurred relative to the origin of the
+            captured display-surface.
+          </p>
+          <p>
+            The only legal negative value is -1. A combination of {{CapturedMouseEvent/surfaceX}}
+            and {{CapturedMouseEvent/surfaceY}} both being set to -1 indicates that the mouse cursor
+            is not over the captured surface.
+          </p>
+        </dd>
+        <dt><dfn attribute>surfaceY</dfn></dt>
+        <dd>
+          <p>
+            The vertical coordinate at which the event occurred relative to the origin of the
+            captured display-surface.
+          </p>
+          <p>
+            The only legal negative value is -1. A combination of {{CapturedMouseEvent/surfaceX}}
+            and {{CapturedMouseEvent/surfaceY}} both being set to -1 indicates that the mouse cursor
+            is not over the captured surface.
+          </p>
+        </dd>
+      </dl>
+    </section>
+    <section id="captured-mouse-change-event-init">
+      <h2>CapturedMouseEventInit dictionary</h2>
+      <pre class="idl">
+        dictionary CapturedMouseEventInit {
+          long surfaceX = -1;
+          long surfaceY = -1;
+        };
+      </pre>
+      <dl data-link-for="CapturedMouseEventInit" data-dfn-for="CapturedMouseEventInit">
+        <dt><dfn dict-member>surfaceX</dfn></dt>
+        <dd>
+          <p>
+            Initializes the {{CapturedMouseEvent/surfaceX}} attribute of the {{CapturedMouseEvent}}
+            object to the desired horizontal relative position of the mouse pointer on the user's
+            screen.
+          </p>
+        </dd>
+        <dt><dfn dict-member>surfaceY</dfn></dt>
+        <dd>
+          <p>
+            Initializes the {{CapturedMouseEvent/surfaceY}} attribute of the {{CapturedMouseEvent}}
+            object to the desired vertical relative position of the mouse pointer on the user's
+            screen.
+          </p>
+        </dd>
+      </dl>
+    </section>
+    <section id="capture-controller-extensions">
+      <h2>CaptureController Extensions</h2>
+      <pre class="idl">
+        partial interface CaptureController {
+          attribute EventHandler oncapturedmousechange;
+        };
+      </pre>
+      <dl data-link-for="CaptureController" data-dfn-for="CaptureController">
+        <dt>
+          <dfn>oncapturedmousechange</dfn>
+        </dt>
+        <dd>
+          <p>
+            We extend {{CaptureController}} with {{CaptureController/oncapturedmousechange}}, an
+            {{EventHandler}} for events of type {{CapturedMouseEvent}}.
+          </p>
+          <p>Events MUST NOT be fired more than 30 times per second.</p>
+          <p>
+            Events MUST NOT be fired after the last clone of the original video track is stopped.
+          </p>
+        </dd>
+      </dl>
+    </section>
+  </body>
+</html>

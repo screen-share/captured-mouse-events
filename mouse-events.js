@@ -28,4 +28,5 @@ var respecConfig = {
   ],
   shortName: "mouse-events",
   subjectPrefix: "[mouse-events]",
+  lint: { "no-unused-dfns": false },
 };
