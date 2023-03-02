@@ -16,7 +16,16 @@ var respecConfig = {
       company: "Google",
     },
   ],
-  xref: ["html", "infra", "permissions", "permissions-policy", "dom", "mediacapture-streams", "webidl", "screen-capture"],
+  xref: [
+    "html",
+    "infra",
+    "permissions",
+    "permissions-policy",
+    "dom",
+    "mediacapture-streams",
+    "webidl",
+    "screen-capture",
+  ],
   shortName: "mouse-events",
   subjectPrefix: "[mouse-events]",
 };
