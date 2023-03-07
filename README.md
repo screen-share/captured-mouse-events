@@ -7,8 +7,7 @@ But what if the application wishes to programmatically observe the location of t
 That can be done by scanning each frame and employing heuristics to detect the cursor.
 But that's neither simple, nor efficient, nor robust.
 
-A mechanism for exposing mouse coordinates over a captured surface to a capturing application is desirable.
-Such a mechanism is proposed by this specification.
+To that end, we propose a mechanism for exposing mouse coordinates over a captured surface to a capturing application.
 
 The TL;DR is that we expose an `oncapturedmousechange` EventHandler on [CaptureController](https://www.w3.org/TR/screen-capture/#dom-capturecontroller).
 Events are of the general shape `{surfaceX: long, surfaceY: long}`, exposing the coordinates of the mouse relative to the origin of the captured surface.
