@@ -12,4 +12,13 @@ To that end, we propose a mechanism for exposing mouse coordinates over a captur
 The TL;DR is that we expose an `oncapturedmousechange` EventHandler on [CaptureController](https://www.w3.org/TR/screen-capture/#dom-capturecontroller).
 Events are of the general shape `{surfaceX: long, surfaceY: long}`, exposing the coordinates of the mouse relative to the origin of the captured surface.
 
-Future extensions, such as exposing the state of mouse buttons and modifier keys, are outscoped for the time being.
+### Future extensions
+#### Planned
+1. Exposing the shape of the cursor
+2. Exposing useful timestamps (that can be correlated with video frames' timestamps)
+
+#### Potential (discussed but not currently planned)
+1. Exposing mouse buttons (might be tricky security- and privacy-wise)
+2. Exposing the state of modifier keys (might be tricky security- and privacy-wise)
+3. Exposing keyboard events (might be tricky security- and privacy-wise)
+4. Mechanism for controlling event frequency
