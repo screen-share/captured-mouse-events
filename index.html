@@ -79,12 +79,23 @@
       <pre class="idl">
         [Exposed=Window]
         interface CapturedMouseEvent : Event {
-          constructor(optional CapturedMouseEventInit eventInitDict = {});
+          constructor(DOMString type, optional CapturedMouseEventInit eventInitDict = {});
           readonly attribute long surfaceX;
           readonly attribute long surfaceY;
         };
       </pre>
       <dl data-link-for="CapturedMouseEvent" data-dfn-for="CapturedMouseEvent">
+        <dt><dfn constructor>constructor()</dfn></dt>
+        <dd>
+          <p>Constructs a new {{CapturedMouseEvent}}.</p>
+          <p>The arguments are passed as-it to {{Event}}'s constructor.</p>
+          <p>If an {{CapturedMouseEventInit}} argument is provided then the
+            constructor <a data-cite="WEBIDL#dfn-throw">throws</a> a
+            <a data-cite="WEBIDL#exceptiondef-rangeerror">RangeError</a>
+            exception if any of {{CapturedMouseEventInit.surfaceX}} or
+            {{CapturedMouseEventInit.surfaceY}} is negative, and they are not
+            both equal to -1.
+        </dd>
         <dt><dfn attribute>surfaceX</dfn></dt>
         <dd>
           <p>
@@ -114,7 +125,7 @@
     <section id="captured-mouse-change-event-init">
       <h2>CapturedMouseEventInit dictionary</h2>
       <pre class="idl">
-        dictionary CapturedMouseEventInit {
+        dictionary CapturedMouseEventInit : EventInit {
           long surfaceX = -1;
           long surfaceY = -1;
         };
