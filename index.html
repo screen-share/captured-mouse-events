@@ -88,13 +88,13 @@
         <dt><dfn constructor>constructor()</dfn></dt>
         <dd>
           <p>Constructs a new {{CapturedMouseEvent}}.</p>
-          <p>The arguments are passed as-it to {{Event}}'s constructor.</p>
-          <p>If an {{CapturedMouseEventInit}} argument is provided then the
-            constructor <a data-cite="WEBIDL#dfn-throw">throws</a> a
-            <a data-cite="WEBIDL#exceptiondef-rangeerror">RangeError</a>
-            exception if any of {{CapturedMouseEventInit.surfaceX}} or
+          <p>The arguments are passed as is to {{Event}}'s constructor.</p>
+          <p>If any of {{CapturedMouseEventInit.surfaceX}} or
             {{CapturedMouseEventInit.surfaceY}} is negative, and they are not
-            both equal to -1.
+            both equal to -1, then the constructor
+            <a data-cite="WEBIDL#dfn-throw">throws</a> a
+            <a data-cite="WEBIDL#exceptiondef-rangeerror">RangeError</a>
+            exception.
         </dd>
         <dt><dfn attribute>surfaceX</dfn></dt>
         <dd>
