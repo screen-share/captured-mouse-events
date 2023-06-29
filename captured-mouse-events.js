@@ -1,7 +1,7 @@
 var respecConfig = {
   specStatus: "unofficial",
   github: {
-    repoURL: "https://github.com/screen-share/mouse-events",
+    repoURL: "https://github.com/screen-share/captured-mouse-events",
     branch: "master",
   },
   editors: [
