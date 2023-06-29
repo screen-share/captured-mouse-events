@@ -1,4 +1,4 @@
-# Screen-Capture Mouse Events
+# Captured Mouse Events
 
 Web applications can use `getDisplayMedia()` to capture any display-surface - tabs, windows or screens.
 When they do, they can also specify the cursor constraint to control whether the cursor's pixels are captured or not.
