@@ -26,6 +26,6 @@ var respecConfig = {
     "webidl",
     "screen-capture",
   ],
-  shortName: "mouse-events",
-  subjectPrefix: "[mouse-events]",
+  shortName: "captured-mouse-events",
+  subjectPrefix: "[captured-mouse-events]",
 };
