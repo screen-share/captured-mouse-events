@@ -1,7 +1,7 @@
 # Captured Mouse Events
 
 Web applications can use `getDisplayMedia()` to capture any display-surface - tabs, windows or screens.
-When they do, they can also specify the cursor constraint to control whether the cursor's pixels are captured or not.
+When they do, they can also specify the [cursor constraint](https://www.w3.org/TR/screen-capture/#dfn-cursor) to control whether the cursor's pixels are captured or not.
 
 But what if the application wishes to programmatically observe the location of the cursor?
 That can be done by scanning each frame and employing heuristics to detect the cursor.
