@@ -89,13 +89,15 @@
         <dd>
           <p>Constructs a new {{CapturedMouseEvent}}.</p>
           <p>The arguments are passed as is to {{Event}}'s constructor.</p>
-          <p>If any of {{CapturedMouseEventInit.surfaceX}} or
-            {{CapturedMouseEventInit.surfaceY}} is negative, and they are not
-            both equal to -1, then the constructor
+          <p>
+            If any of {{CapturedMouseEventInit.surfaceX}} or {{CapturedMouseEventInit.surfaceY}} is
+            negative, and they are not both equal to -1, then the constructor
             <a data-cite="WEBIDL#dfn-throw">throws</a> a
             <a data-cite="WEBIDL#exceptiondef-rangeerror">RangeError</a>
             exception.
+          </p>
         </dd>
+
         <dt><dfn attribute>surfaceX</dfn></dt>
         <dd>
           <p>
@@ -165,9 +167,14 @@
             We extend {{CaptureController}} with {{CaptureController/oncapturedmousechange}}, an
             {{EventHandler}} for events of type {{CapturedMouseEvent}}.
           </p>
-          <p>Events MUST NOT be fired more than 30 times per second.</p>
           <p>
-            Events MUST NOT be fired after the last clone of the original video track is stopped.
+            User agents MAY limit the frequency with which events are fired. This can be achieved by
+            briefly buffering events, then skipping the event for one state and reporting only the
+            latest one. User agents SHOULD only buffer for very short periods of time.
+          </p>
+          <p>
+            Events MUST NOT be fired after the original video track and all its clones have been
+            stopped.
           </p>
         </dd>
       </dl>
