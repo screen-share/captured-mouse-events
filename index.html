@@ -89,13 +89,15 @@
         <dd>
           <p>Constructs a new {{CapturedMouseEvent}}.</p>
           <p>The arguments are passed as is to {{Event}}'s constructor.</p>
-          <p>If any of {{CapturedMouseEventInit.surfaceX}} or
-            {{CapturedMouseEventInit.surfaceY}} is negative, and they are not
-            both equal to -1, then the constructor
+          <p>
+            If any of {{CapturedMouseEventInit.surfaceX}} or {{CapturedMouseEventInit.surfaceY}} is
+            negative, and they are not both equal to -1, then the constructor
             <a data-cite="WEBIDL#dfn-throw">throws</a> a
             <a data-cite="WEBIDL#exceptiondef-rangeerror">RangeError</a>
             exception.
+          </p>
         </dd>
+
         <dt><dfn attribute>surfaceX</dfn></dt>
         <dd>
           <p>
