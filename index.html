@@ -229,9 +229,14 @@
             We extend {{CaptureController}} with {{CaptureController/oncapturedmousechange}}, an
             {{EventHandler}} for events of type {{CapturedMouseEvent}}.
           </p>
-          <p>Events MUST NOT be fired more than 30 times per second.</p>
           <p>
-            Events MUST NOT be fired after the last clone of the original video track is stopped.
+            User agents MAY limit the frequency with which events are fired. This can be achieved by
+            briefly buffering events, then skipping the events for some states and reporting only the
+            latest one. User agents SHOULD only buffer for very short periods of time.
+          </p>
+          <p>
+            Events MUST NOT be fired after the original video track and all its clones have been
+            stopped.
           </p>
         </dd>
       </dl>
