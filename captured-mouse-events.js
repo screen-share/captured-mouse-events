@@ -1,5 +1,5 @@
 var respecConfig = {
-  specStatus: "cg-draft",
+  specStatus: "CG-DRAFT",
   github: {
     repoURL: "https://github.com/screen-share/captured-mouse-events",
     branch: "master",
