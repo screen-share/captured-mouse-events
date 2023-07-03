@@ -73,15 +73,16 @@
         {{CapturedMouseEvent}}s with the mouse coordinates over the captured surface.
       </p>
       <pre class="example highlight">
-try {
-  let controller = new CaptureController();
-  controller.oncapturedmousechange = (event) => {
-    console.log(`Mouse coordinates: x=${event.surfaceX}, y=${event.surfaceY}`);
-  };
-  let mediaStream = await navigator.mediaDevices.getDisplayMedia({ controller });
-} catch (e) {
-  console.log(`Unable to acquire screen capture: ${e}`);
-}</pre>
+        try {
+          let controller = new CaptureController();
+          controller.oncapturedmousechange = (event) => {
+            console.log(`Mouse coordinates: x=${event.surfaceX}, y=${event.surfaceY}`);
+          };
+          let mediaStream = await navigator.mediaDevices.getDisplayMedia({ controller });
+        } catch (e) {
+          console.log(`Unable to acquire screen capture: ${e}`);
+        }
+      </pre>
       <p>
         In the following example, the
         <a data-cite="screen-capture/#dfn-cursor">cursor constraint</a> is used to omit the cursor
@@ -90,37 +91,38 @@ try {
         can then redraw the cursor.
       </p>
       <pre class="example highlight">
-// An peer-to-peer connection is established and a data channel created for
-// transmitting the mouse events.
-const configuration = {iceServers: [{urls: 'stun:stun.example.org'}]};
-const pc = new RTCPeerConnection(configuration);
-const channel = pc.createDataChannel('mouse-events', {negotiated: true, id: 0});
+        // An peer-to-peer connection is established and a data channel created for
+        // transmitting the mouse events.
+        const configuration = {iceServers: [{urls: 'stun:stun.example.org'}]};
+        const pc = new RTCPeerConnection(configuration);
+        const channel = pc.createDataChannel('mouse-events', {negotiated: true, id: 0});
 
-// On the capturing side, the capture session is initialized with the mouse
-// cursor ommitted from the captured surface. The mouse coordinates are
-// transmitted via the data channel.
-const controller = new CaptureController();
-controller.oncapturedmousechange = (event) => {
-  channel.send(JSON.stringify({x: event.surfaceX, y: event.surfaceY}));
-};
-const mediaStream = await navigator.mediaDevices.getDisplayMedia({
-  video: { cursor: "never" },
-  controller: controller,
-});
-pc.addTrack(mediaStream.getVideoTracks()[0], mediaStream);
-...
+        // On the capturing side, the capture session is initialized with the mouse
+        // cursor ommitted from the captured surface. The mouse coordinates are
+        // transmitted via the data channel.
+        const controller = new CaptureController();
+        controller.oncapturedmousechange = (event) => {
+          channel.send(JSON.stringify({x: event.surfaceX, y: event.surfaceY}));
+        };
+        const mediaStream = await navigator.mediaDevices.getDisplayMedia({
+          video: { cursor: "never" },
+          controller: controller,
+        });
+        pc.addTrack(mediaStream.getVideoTracks()[0], mediaStream);
+        ...
 
-// On the receiving side, the remote stream is rendered in a video and the
-// coordinates received from the data channel are used to redraw the cursor.
-const remoteView = document.getElementById('my-video-element');
-channel.onmessage = ({data}) => redrawCursor(removeView, JSON.parse(data));
-pc.ontrack = ({track, streams}) => {
-  track.onunmute = () => {
-    if (remoteView.srcObject) return;
-    remoteView.srcObject = streams[0];
-  };
-};
-...</pre>
+        // On the receiving side, the remote stream is rendered in a video and the
+        // coordinates received from the data channel are used to redraw the cursor.
+        const remoteView = document.getElementById('my-video-element');
+        channel.onmessage = ({data}) => redrawCursor(removeView, JSON.parse(data));
+        pc.ontrack = ({track, streams}) => {
+          track.onunmute = () => {
+            if (remoteView.srcObject) return;
+            remoteView.srcObject = streams[0];
+          };
+        };
+        ...
+      </pre>
     </section>
     <section id="captured-mouse-change-event">
       <h2>CapturedMouseEvent interface</h2>
@@ -146,13 +148,15 @@ pc.ontrack = ({track, streams}) => {
         <dd>
           <p>Constructs a new {{CapturedMouseEvent}}.</p>
           <p>The arguments are passed as is to {{Event}}'s constructor.</p>
-          <p>If any of {{CapturedMouseEventInit.surfaceX}} or
-            {{CapturedMouseEventInit.surfaceY}} is negative, and they are not
-            both equal to -1, then the constructor
+          <p>
+            If any of {{CapturedMouseEventInit.surfaceX}} or {{CapturedMouseEventInit.surfaceY}} is
+            negative, and they are not both equal to -1, then the constructor
             <a data-cite="WEBIDL#dfn-throw">throws</a> a
             <a data-cite="WEBIDL#exceptiondef-rangeerror">RangeError</a>
             exception.
+          </p>
         </dd>
+
         <dt><dfn attribute>surfaceX</dfn></dt>
         <dd>
           <p>
