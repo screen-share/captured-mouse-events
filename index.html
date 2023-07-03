@@ -68,13 +68,13 @@
     <section id="examples">
       <h2>Examples</h2>
       <p>
-        In the basic example below, a <code>CaptureController</code> is passed to
-        <code>getDisplayMedia()</code>. An event handler is set on that object in order to receive
-        {{CapturedMouseEvent}}s with the mouse coordinates over the captured surface.
+        In the basic example below, a {{CaptureController}} is passed to
+        {{MediaDevices/getDisplayMedia()}}. An event handler is set on that object in order to
+        receive {{CapturedMouseEvent}}s with the mouse coordinates over the captured surface.
       </p>
       <pre class="example highlight">
         try {
-          let controller = new CaptureController();
+          const controller = new CaptureController();
           controller.oncapturedmousechange = (event) => {
             console.log(`Mouse coordinates: x=${event.surfaceX}, y=${event.surfaceY}`);
           };
