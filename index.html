@@ -79,6 +79,27 @@
         more scrutiny in which information may safely be exposed. At present, only information
         already available to the capturing application is exposed - the mouse coordinates.
       </p>
+      <p>
+        If a <a data-cite="screen-capture/#dfn-capture-session">capture-session</a>
+        has an associated {{CaptureController}} whose
+        <a data-cite="screen-capture/#dfn-source">`[[Source]]`</a> is not
+        <a data-cite="mediacapture-streams/#track-ended">ended</a> then events with type
+        <dfn>capturedmousechange</dfn>, which do not bubble, which are not cancelable and which use
+        the {{CapturedMouseEvent}} interface, MUST be regularly dispatched on this
+        {{CaptureController}} to indicate the position of the captured cursor within the [=display
+        surface=] associated with
+        <a data-cite="screen-capture/#dfn-source">`CaptureController.[[Source]]`</a>, or the
+        cursor's departure from that surface.
+      </p>
+      <p>
+        User agents MAY limit the frequency with which events are fired. This can be achieved by
+        briefly buffering events, then skipping the events for some states and reporting only the
+        latest one. User agents SHOULD only buffer for very short periods of time.
+      </p>
+      <p>
+        Events MUST NOT be fired after the original video track and all its clones have been
+        stopped.
+      </p>
       <pre class="idl">
         [Exposed=Window]
         interface CapturedMouseEvent : Event {
@@ -156,29 +177,20 @@
     </section>
     <section id="capture-controller-extensions">
       <h2>CaptureController Extensions</h2>
+      <p>
+        We extend {{CaptureController}} to enable developers to listen to {{CapturedMouseEvent}}
+        events dispatched during a
+        <a data-cite="screen-capture/#dfn-capture-session">capture-session</a>:
+      </p>
       <pre class="idl">
         partial interface CaptureController {
           attribute EventHandler oncapturedmousechange;
         };
       </pre>
       <dl data-link-for="CaptureController" data-dfn-for="CaptureController">
-        <dt>
-          <dfn>oncapturedmousechange</dfn>
-        </dt>
+        <dt><dfn>oncapturedmousechange</dfn> of type {{EventHandler}}</dt>
         <dd>
-          <p>
-            We extend {{CaptureController}} with {{CaptureController/oncapturedmousechange}}, an
-            {{EventHandler}} for events of type {{CapturedMouseEvent}}.
-          </p>
-          <p>
-            User agents MAY limit the frequency with which events are fired. This can be achieved by
-            briefly buffering events, then skipping the events for some states and reporting only
-            the latest one. User agents SHOULD only buffer for very short periods of time.
-          </p>
-          <p>
-            Events MUST NOT be fired after the original video track and all its clones have been
-            stopped.
-          </p>
+          <p>The event type of this event is {{capturedmousechange}}</p>
         </dd>
       </dl>
     </section>
