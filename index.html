@@ -135,8 +135,8 @@
         application the user's interaction with the application itself, and is therefore
         straightforward security-wise, {{CapturedMouseEvent}} exposes to an application the user's
         interaction with another application, or even with the operating system itself, calling for
-        more scrutiny in which information may safely be exposed. At present, only information
-        already available to the capturing application is exposed - the mouse coordinates.
+        more scrutiny in which information may safely be exposed. See section
+        <a href="#privacy-considerations"></a> for more details on this topic.
       </p>
       <pre class="idl">
         [Exposed=Window]
@@ -240,6 +240,57 @@
           </p>
         </dd>
       </dl>
+    </section>
+    <section class="informative">
+      <h2>Security Considerations</h2>
+      <p>
+        This specification only exposes new information about the mouse of a
+        <a data-cite="screen-capture/#dfn-capture-session">capture-session</a> and has no known
+        security impacts.
+      </p>
+    </section>
+    <section class="informative">
+      <h2>Privacy Considerations</h2>
+      <p>
+        This specification only exposes mouse events from a
+        <a data-cite="screen-capture/#dfn-capture-session">capture-session</a>. Such a session is
+        started by a call to {{MediaDevices/getDisplayMedia()}} which accepts a `CaptureController`
+        as an argument. The controller is the object to which mouse events are dispatched.
+        Consequently, the way this new information is exposed is indentical to
+        {{MediaDevices/getDisplayMedia()}}. In particular, the restriction to launch the capture are
+        the same, the information is limited to the document that started the capture, and the
+        information is no longer exposed after capture ends.
+      </p>
+      <p>
+        Mouse events do not contain any personally-identifiable information. Platforms may expose
+        different kind of events (e.g. special gestures only on mobile platforms) but current
+        version only exposes mouse coordinates within the captured surface, which is platform
+        independent. One could potentially infer sensitive information on the person performing the
+        screen capture (e.g. mouse speed, tremor, no move at all) but as explained below mouse
+        coordinates can actually already be obtained from video frames.
+      </p>
+      <p>
+        This specification exposes mouse coordinates when the mouse is within the captured surface,
+        or notifies when the mouse leaves the captured surface. This can be determined by scanning
+        the captured video frames and employing heuristics to detect the position of the cursor, or
+        when it disappears. However, this approach requires extra code and calculation for web
+        developers and is neither simple, nor efficient, nor robust.
+      </p>
+      <p>
+        Incidentally, note that the
+        <a data-cite="screen-capture/#dfn-cursor">cursor constraint</a> is completely under control
+        of the document that started the capture and does not affect how
+        {{MediaDevices/getDisplayMedia()}}'s permission request is presented to the user. So for
+        safety analysis we only need to consider the case when {{CursorCaptureConstraint}} is set to
+        `"always"`.
+      </p>
+      <p>
+        When implementing this feature, one must be careful to dispatch mouse coordinates only when
+        the cursor is drawn in the captured surface, and to notify mouse departure from the surface
+        only when the cursor disappears. Be aware of subtle cases such as a captured window or tab
+        switching between inactive and active states, or reordering of the window stack using
+        keyboard shortcuts.
+      </p>
     </section>
   </body>
 </html>
