@@ -182,7 +182,7 @@
         </dd>
       </dl>
     </section>
-    <section id="examples">
+    <section id="examples" class="informative">
       <h2>Examples</h2>
       <p>
         In the basic example below, a {{CaptureController}} is passed to
@@ -240,6 +240,36 @@
         };
         ...
       </pre>
+    </section>
+    <section class="informative">
+      <h2>Privacy and Security Considerations</h2>
+      <p>
+        The mechanisms introduced by this specification are only available to an application which
+        has called {{MediaDevices/getDisplayMedia()}}, and where the user selected to capture some
+        [=display surface=] <var>S</var>. This means that the capturing application already has
+        access to all of the pixels visible on <var>S</var>.
+      </p>
+      <p>
+        If the capturing application so chooses, it can include the cursor among those pixels by
+        specifying the {{CursorCaptureConstraint}} {{CursorCaptureConstraint/"always"}}. This can
+        either be done when calling {{MediaDevices/getDisplayMedia()}}, or through
+        {{MediaStreamTrack/applyConstraints()}}. If {{MediaStreamTrack/applyConstraints()}} is used,
+        the cursor constraint might even be applied to a clone of the original track.
+      </p>
+      <p>
+        It follows that the mechanisms currently included in this specification do NOT change what
+        information is available to a capturing application. These mechanisms only make access to
+        this information cheaper and more reliable, by removing the need for the capturing
+        application to heuristically scan for the cursor's position in the frames.
+      </p>
+      <p>
+        When implementing this feature, care must be taken so that the cursor's location would not
+        be exposed in situations where it would not be drawn in the frame. For example, if the
+        captured surface is an inactive native window, and the user moves the cursor across the
+        window while moving between two other applications, then the cursor's location should only
+        be exposed via events, if the cursor is also drawn into the frame (or would have been drawn
+        if {{CursorCaptureConstraint/"always"}} were specified as the cursor constraint).
+      </p>
     </section>
   </body>
 </html>
