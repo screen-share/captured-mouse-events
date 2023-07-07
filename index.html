@@ -92,6 +92,11 @@
         cursor's departure from that surface.
       </p>
       <p>
+        The user agent MUST NOT fire an event if the event immediately preceding it had the same
+        values in all of its fields. (That is to say, two identical events will not be conseuctively
+        fired.)
+      </p>
+      <p>
         User agents MAY limit the frequency with which events are fired. This can be achieved by
         briefly buffering events, then skipping the events for some states and reporting only the
         latest one. User agents SHOULD only buffer for very short periods of time.
