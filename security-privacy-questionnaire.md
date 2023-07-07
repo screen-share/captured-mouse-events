@@ -1,20 +1,20 @@
 # Self-Review Questionnaire: Security and Privacy
 
-Last update: 2023-07-06
+Last update: 2023-07-07
 
 Below are the answers to [W3C's Self-Review Questionnaire](https://w3ctag.github.io/security-questionnaire/#questions). See also Security/Privacy Considerations sections in the specification.
 
 ## 2.1. What information does this feature expose, and for what purposes?
 
-When a user performs a screen capture via the [Screen Capture](https://w3c.github.io/mediacapture-screen-share) API, this specification exposes mouse coordinates within the captured surface. It also exposes whether the mouse exits the captured surface.
+When a user performs a screen capture via the [Screen Capture](https://w3c.github.io/mediacapture-screen-share) API, or any other future API that would use a [CaptureController](https://www.w3.org/TR/screen-capture/#capturecontroller) object to facilitate secreen-capture, this specification exposes mouse coordinates within the captured surface, or the departure of the mouse from the captured surface. (The cursor's location outside of the captured surface is NOT exposed.)
 
 ## 2.2. Do features in your specification expose the minimum amount of information necessary to enable their intended uses?
 
-No, one can already scan captured video frames and employ heuristics to detect the position of the cursor, or when it disappears. However, this approach requires extra code and calculation for web developers and is neither simple, nor efficient, nor robust.
+Yes, the minimum information is exposed. In fact, all of the information exposed is already available, but the mechanisms we introduce in our specification improve the simplicity, effiency and robustness to that information, by exposing the values programmatically, rather than requiring a capturing application to scan for the cursor's location in each and every frame.
 
 ## 2.3. Do the features in your specification expose personal information, personally-identifiable information (PII), or information derived from either?
 
-No PII can be extracted from mouse coordinates.
+Generally no. But one could imagine that fingerprinting could be done based on the patterns of a user's mouse movements. However, as mentioned in 2.2, this is not new information.
 
 ## 2.4. How do the features in your specification deal with sensitive information?
 
@@ -58,11 +58,11 @@ Mouse events are only dispatched to the `CaptureController` object, which lives 
 
 ## 2.14. How do the features in this specification work in the context of a browser’s Private Browsing or Incognito mode?
 
-Mouse events are only dispatched to the `CaptureController` object, which lives in the document where the method `navigator.mediaDevices.getDisplayMedia()` was called to start the screen capture session. This specification does make any distiction between normal and private modes besides what exists in the [Screen Capture](https://w3c.github.io/mediacapture-screen-share) specification.
+This specification does make any distiction between normal and private modes besides what exists in the [Screen Capture](https://w3c.github.io/mediacapture-screen-share) specification.
 
 ## 2.15. Does this specification have both "Security Considerations" and "Privacy Considerations" sections?
 
-Yes.
+Yes, as a single section covering both sets of considerations. (Separation of these sections would not make sense in this specification's case.)
 
 ## 2.16. Do features in your specification enable origins to downgrade default security protections?
 
@@ -70,8 +70,4 @@ No.
 
 ## 2.17. What happens when a document that uses your feature is kept alive in BFCache (instead of getting destroyed) after navigation, and potentially gets reused on future navigations back to the document?
 
-Mouse events are only dispatched to the `CaptureController` object, which lives in the document where the method `navigator.mediaDevices.getDisplayMedia()` was called to start the screen capture session. If that document is navigated away the screen capture session ends and `CaptureController` is destroyed. If the document is navigated back, a completely new screen capture session would have to be started.
-
-## 2.18. What happens when a document that uses your feature gets disconnected?
-
-Mouse events are only dispatched to the `CaptureController` object, which lives in the document where the method `navigator.mediaDevices.getDisplayMedia()` was called to start the screen capture session. If that document is disconnected the screen capture session ends and `CaptureController` is destroyed. So mouse events are not dispatched or exposed any more.
+If that document is navigated away the screen capture session ends, stopping the user agent from firing additional events.
