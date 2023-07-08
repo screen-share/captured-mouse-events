@@ -29,4 +29,6 @@ var respecConfig = {
   ],
   shortName: "captured-mouse-events",
   subjectPrefix: "[captured-mouse-events]",
+  testSuiteURI: "https://github.com/web-platform-tests/wpt/tree/master/captured-mouse-events",
+  implementationReportURI: "https://wpt.fyi/results/captured-mouse-events?label=experimental&label=master&aligned",
 };
