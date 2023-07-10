@@ -6,7 +6,7 @@ Below are the answers to [W3C's Self-Review Questionnaire](https://w3ctag.github
 
 ## 2.1. What information does this feature expose, and for what purposes?
 
-When a user performs a screen capture via the [Screen Capture](https://w3c.github.io/mediacapture-screen-share) API, or any other future API that would use a [CaptureController](https://www.w3.org/TR/screen-capture/#capturecontroller) object to facilitate secreen-capture, this specification exposes mouse coordinates within the captured surface, or the departure of the mouse from the captured surface. (The cursor's location outside of the captured surface is NOT exposed.)
+When a user performs a screen capture via the [Screen Capture](https://w3c.github.io/mediacapture-screen-share) API, or any other future API that would use a [CaptureController](https://www.w3.org/TR/screen-capture/#capturecontroller) object to facilitate screen-capture, this specification exposes mouse coordinates within the captured surface, or the departure of the mouse from the captured surface. (The cursor's location outside of the captured surface is NOT exposed.)
 
 ## 2.2. Do features in your specification expose the minimum amount of information necessary to enable their intended uses?
 
@@ -71,3 +71,11 @@ No.
 ## 2.17. What happens when a document that uses your feature is kept alive in BFCache (instead of getting destroyed) after navigation, and potentially gets reused on future navigations back to the document?
 
 If that document is navigated away the screen capture session ends, stopping the user agent from firing additional events.
+
+## 2.18. What happens when a document that uses your feature gets disconnected?
+
+If that document gets disconnected the screen capture session ends, stopping the user agent from firing additional events.
+
+## 2.19. What should this questionnaire have asked?
+
+N/A
