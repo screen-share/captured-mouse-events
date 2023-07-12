@@ -83,17 +83,17 @@
         If a <a data-cite="screen-capture/#dfn-capture-session">capture-session</a>
         has an associated {{CaptureController}} whose
         <a data-cite="screen-capture/#dfn-source">`[[Source]]`</a> is not
-        <a data-cite="mediacapture-streams/#track-ended">ended</a> then events with type
-        <dfn>capturedmousechange</dfn>, which do not bubble, which are not cancelable and which use
-        the {{CapturedMouseEvent}} interface, MUST be regularly dispatched on this
-        {{CaptureController}} to indicate the position of the captured cursor within the [=display
-        surface=] associated with
+        <a data-cite="mediacapture-streams/#track-ended">ended</a> then the user age MUST
+        regularly [=fire an event=] named <dfn>capturedmousechange</dfn> at the
+        {{CaptureController}} using {{CapturedMouseEvent}}, with its {{Event/bubbles}} and
+        {{Event/cancelable}} attributes set to `false`, to indicate the position of the captured
+        cursor within the [=display surface=] associated with
         <a data-cite="screen-capture/#dfn-source">`CaptureController.[[Source]]`</a>, or the
         cursor's departure from that surface.
       </p>
       <p>
-        The user agent MUST NOT fire an event if the event immediately preceding it had the same
-        values in all of its fields. (That is to say, two identical events will not be conseuctively
+        The user agent MUST NOT [=fire an event=] if the event immediately preceding it had the same
+        values in all of its fields. (That is to say, two identical events will not be consecutively
         fired.)
       </p>
       <p>
